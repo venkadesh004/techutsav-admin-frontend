@@ -43,6 +43,7 @@ const HomePage = () => {
   }, []);
 
   const [subLoader, setSubLoader] = useState(false);
+  const [file, setFile] = useState(null);
 
   const [currentData, setCurrentData] = useState({
     eventName: "",
@@ -229,10 +230,47 @@ const HomePage = () => {
                       <DeleteIcon sx={{ width: "20px", height: "20px" }} />{" "}
                       Delete
                     </Button>
-                    <IconButton>
+                    <input
+                      type="file"
+                      name="file"
+                      onChange={(e) => {
+                        setFile(e.target.files[0]);
+                      }}
+                    />
+                    <IconButton
+                      onClick={() => {
+                        if (file !== null) {
+                          setSubLoader(true);
+                          setOpen(false);
+                          const formData = new FormData();
+                          formData.append("uniqueName", currentData.uniqueName);
+                          formData.append("image", file);
+                          api
+                            .post("admin/uploadFile", formData, {
+                              headers: {
+                                "Content-Type": "multipart/form-data",
+                              },
+                            })
+                            .then((result) => {
+                              setSubLoader(false);
+                              setOpen(true);
+                              alert("Image Uploaded Successfully");
+                            })
+                            .catch((err) => {
+                              console.log(err);
+                            });
+                        }
+                      }}
+                    >
                       <UploadFileIcon />
                     </IconButton>
-                    <IconButton>
+                    <IconButton
+                      onClick={() => {
+                        window.location.href =
+                          "https://techutsav2024.blob.core.windows.net/eventimages/" +
+                          currentData.uniqueName;
+                      }}
+                    >
                       <CloudDownloadIcon />
                     </IconButton>
                   </div>
