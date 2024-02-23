@@ -141,7 +141,7 @@ const HomePage = () => {
               <div className={"w-full h-[500px] flex items-start"}>
                 <div
                   className={
-                    "flex pl-10 flex-col w-full h-full justify-center gap-7"
+                    "flex pl-10 flex-col w-[70%] h-full justify-center gap-7"
                   }
                 >
                   <h2 className={"w-full text-start font-bold text-4xl"}>
@@ -254,10 +254,14 @@ const HomePage = () => {
                             .then((result) => {
                               setSubLoader(false);
                               setOpen(true);
+                              window.location.reload();
                               alert("Image Uploaded Successfully");
                             })
                             .catch((err) => {
                               console.log(err);
+                              alert("Image Uploading Failed!");
+                              setSubLoader(false);
+                              setOpen(true);
                             });
                         }
                       }}
@@ -358,6 +362,9 @@ const HomePage = () => {
                       placeholder="Event Abstract"
                     />
                   </div>
+                </div>
+                <div className={'w-[30%] h-full aspect-auto flex items-center justify-center'}>
+                  <img src={`https://techutsav2024.blob.core.windows.net/eventimages/${currentData.uniqueName}`} alt="" />
                 </div>
               </div>
               <div className={"mt-4 pl-10"}>
