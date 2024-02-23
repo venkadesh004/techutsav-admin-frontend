@@ -19,6 +19,11 @@ import { api } from "../api/api";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
 
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+
 const theme = createTheme({
   palette: {
     primary: blue,
@@ -362,9 +367,41 @@ const HomePage = () => {
                       placeholder="Event Abstract"
                     />
                   </div>
+                  <div
+                    className={
+                      "flex items-center w-[full] max-w-[650px] justify-between"
+                    }
+                  >
+                    <p className={"font-bold text-2xl"}>Flagship Event: </p>
+                    <FormControl className={'w-[450px]'}>
+                      <InputLabel id="flagshipEventSelection" className={'w-[200px]'} disabled={!editMode}>Flagship Event</InputLabel>
+                      <Select
+                        labelId="flagshipEventSelection"
+                        id=""
+                        value={currentData.flagship}
+                        label="Event Type"
+                        onChange={(event) => {
+                          setCurrentData({
+                            ...currentData,
+                            flagship: event.target.value
+                          });
+                        }}
+                      >
+                        <MenuItem value={true}>True</MenuItem>
+                        <MenuItem value={false}>False</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </div>
                 </div>
-                <div className={'w-[30%] h-full aspect-auto flex items-center justify-center'}>
-                  <img src={`https://techutsav2024.blob.core.windows.net/eventimages/${currentData.uniqueName}`} alt="" />
+                <div
+                  className={
+                    "w-[30%] h-full aspect-auto flex items-center justify-center"
+                  }
+                >
+                  <img
+                    src={`https://techutsav2024.blob.core.windows.net/eventimages/${currentData.uniqueName}`}
+                    alt=""
+                  />
                 </div>
               </div>
               <div className={"mt-4 pl-10"}>
