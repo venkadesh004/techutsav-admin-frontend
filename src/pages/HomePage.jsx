@@ -284,9 +284,7 @@ const HomePage = () => {
                     </IconButton>
                     <IconButton
                       onClick={() => {
-                        window.location.href =
-                          "https://techutsav2024.blob.core.windows.net/eventimages/" +
-                          currentData.uniqueName;
+                        window.location.href = `https://techutsav2024.blob.core.windows.net/eventimages/${currentData.uniqueName}.jpg`;
                       }}
                     >
                       <CloudDownloadIcon />
@@ -450,7 +448,7 @@ const HomePage = () => {
                   }
                 >
                   <img
-                    src={`https://techutsav2024.blob.core.windows.net/eventimages/${currentData.uniqueName}`}
+                    src={`https://techutsav2024.blob.core.windows.net/eventimages/${currentData.uniqueName}.jpg`}
                     alt=""
                   />
                 </div>
