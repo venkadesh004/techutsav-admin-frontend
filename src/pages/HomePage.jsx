@@ -33,13 +33,13 @@ const theme = createTheme({
 });
 
 const HomePage = () => {
+  const screenCheck = useMediaQuery('(min-width: 1000px)');
   if (!screenCheck) {
     return <div className="mt-10 w-full text-center">Please Open in a Screen Bigger than 1000px</div>;
   }
-  
+
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
-  const screenCheck = useMediaQuery('(min-width: 1000px)');
 
   useEffect(() => {
     api
