@@ -24,6 +24,8 @@ import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 
+import {useMediaQuery} from "@mui/material";
+
 const theme = createTheme({
   palette: {
     primary: blue,
@@ -33,6 +35,7 @@ const theme = createTheme({
 const HomePage = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
+  const screenCheck = useMediaQuery('(min-width: 1000px)');
 
   useEffect(() => {
     api
@@ -56,6 +59,8 @@ const HomePage = () => {
     eventAbstract: "",
     eventTiming: "",
     eventDesp: "",
+    incharge: "",
+    inchargeNumber: ""
   });
   const [open, setOpen] = useState(false);
   const [editMode, setEditMode] = useState(false);
@@ -106,6 +111,10 @@ const HomePage = () => {
     return <div className="mt-10 w-full text-center">Loading...</div>;
   }
 
+  if (!screenCheck) {
+    return <div className="mt-10 w-full text-center">Please Open in a Screen Bigger than 1000px</div>;
+  }
+
   return (
     <div>
       <div className={"flex items-start justify-center"}>
@@ -143,7 +152,7 @@ const HomePage = () => {
           {subLoader && <div>Loading Data...</div>}
           {open && (
             <div>
-              <div className={"w-full h-[500px] flex items-start"}>
+              <div className={"w-full mh-[600px] flex items-start"}>
                 <div
                   className={
                     "flex pl-10 flex-col w-[70%] h-full justify-center gap-7"
@@ -365,6 +374,48 @@ const HomePage = () => {
                         });
                       }}
                       placeholder="Event Abstract"
+                    />
+                  </div>
+                  <div
+                    className={
+                      "flex items-center w-[full] max-w-[650px] justify-between"
+                    }
+                  >
+                    <p className={"font-bold text-2xl"}>Event Incharge: </p>
+                    <input
+                      type="text"
+                      value={currentData.incharge}
+                      className={"border-[1px] w-[450px] h-[40px] pl-3"}
+                      disabled={!editMode}
+                      onChange={(event) => {
+                        console.log(event.target.value);
+                        setCurrentData({
+                          ...currentData,
+                          incharge: event.target.value,
+                        });
+                      }}
+                      placeholder="Incharge Name"
+                    />
+                  </div>
+                  <div
+                    className={
+                      "flex items-center w-[full] max-w-[650px] justify-between"
+                    }
+                  >
+                    <p className={"font-bold text-2xl"}>Incharge Phone: </p>
+                    <input
+                      type="text"
+                      value={currentData.inchargeNumber}
+                      className={"border-[1px] w-[450px] h-[40px] pl-3"}
+                      disabled={!editMode}
+                      onChange={(event) => {
+                        console.log(event.target.value);
+                        setCurrentData({
+                          ...currentData,
+                          inchargeNumber: event.target.value,
+                        });
+                      }}
+                      placeholder="Incharge Phone Number"
                     />
                   </div>
                   <div
