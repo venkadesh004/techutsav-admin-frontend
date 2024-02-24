@@ -1,6 +1,6 @@
 import axios from "axios";
 export const api = axios.create({
-  baseURL: "http://localhost:3002",
+  baseURL: "https://techutsav-admin-backend.onrender.com",
   headers: {
     "Content-Type": "application/json",
   },
