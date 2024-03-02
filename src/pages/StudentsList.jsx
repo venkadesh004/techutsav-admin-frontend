@@ -7,6 +7,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
+import Button from "@mui/material/Button";
 
 import FileDownloadDoneIcon from "@mui/icons-material/FileDownloadDone";
 import CloseIcon from "@mui/icons-material/Close";
@@ -21,11 +22,13 @@ const columns = [
   { id: "department", label: "Department", minWidth: 50 },
   { id: "paid", label: "Paid", minWidth: 50 },
   { id: "transactionNumber", label: "Transaction Number", minWidth: 100 },
+  { id: "confirm", label: "Confirm Payment", minWidth: 70 },
 ];
 
 const StudentList = () => {
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [restartEffect, setRestartEffect] = useState(true);
 
   useEffect(() => {
     api
@@ -33,11 +36,12 @@ const StudentList = () => {
       .then((result) => {
         setRows(result.data);
         setLoading(false);
+        setRestartEffect(false);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [restartEffect]);
 
   if (loading) {
     return <div className={"w-full text-center mt-10"}>Loading...</div>;
@@ -72,7 +76,7 @@ const StudentList = () => {
               </TableHead>
               <TableBody sx={{ overflow: "scroll" }}>
                 {rows.map((row) => {
-                  console.log(row);
+                  // console.log(row);
                   return (
                     <TableRow hover role="checkbox">
                       {columns.map((column) => {
@@ -84,6 +88,66 @@ const StudentList = () => {
                               ) : (
                                 <CloseIcon />
                               )}
+                            </TableCell>
+                          );
+                        }
+                        if (column.id === "confirm") {
+                          return (
+                            <TableCell
+                              sx={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "space-between",
+                                width: "100px",
+                                gap: "10px",
+                              }}
+                            >
+                              <Button
+                                variant="contained"
+                                color="success"
+                                sx={{ width: "20px", aspectRatio: "2/1" }}
+                                disabled={row["transactionNumber"] === ""}
+                                onClick={() => {
+                                  api
+                                    .put("/admin/updateUser", {
+                                      _id: row["_id"],
+                                      paid: true,
+                                      fullName: row["fullName"],
+                                      email: row["email"]
+                                    })
+                                    .then((result) => {
+                                      setRestartEffect(true);
+                                    })
+                                    .catch((err) => {
+                                      console.log(err);
+                                    });
+                                }}
+                              >
+                                <FileDownloadDoneIcon />
+                              </Button>
+                              <Button
+                                variant="contained"
+                                color="error"
+                                sx={{ width: "20px", aspectRatio: "2/1" }}
+                                disabled={row["transactionNumber"] === ""}
+                                onClick={() => {
+                                  api
+                                    .put("/admin/updateUser", {
+                                      _id: row["_id"],
+                                      paid: false,
+                                      fullName: row["fullName"],
+                                      email: row["email"],
+                                    })
+                                    .then((result) => {
+                                      setRestartEffect(true);
+                                    })
+                                    .catch((err) => {
+                                      console.log(err);
+                                    });
+                                }}
+                              >
+                                <CloseIcon />
+                              </Button>
                             </TableCell>
                           );
                         }
