@@ -20,6 +20,7 @@ const columns = [
   { id: "collegeName", label: "College Name", minWidth: 50 },
   { id: "department", label: "Department", minWidth: 50 },
   { id: "paid", label: "Paid", minWidth: 50 },
+  { id: "transactionNumber", label: "Transaction Number", minWidth: 100 },
 ];
 
 const StudentList = () => {
