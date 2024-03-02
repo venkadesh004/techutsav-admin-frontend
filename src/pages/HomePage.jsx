@@ -371,7 +371,7 @@ const HomePage = () => {
                           eventAbstract: event.target.value,
                         });
                       }}
-                      placeholder="Event Abstract"
+                      placeholder="Please Add about 35 to 40 words"
                     />
                   </div>
                   <div
