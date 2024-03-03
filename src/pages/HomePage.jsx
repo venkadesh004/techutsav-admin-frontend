@@ -456,7 +456,7 @@ const HomePage = () => {
               <div className={"mt-4 pl-10"}>
                 <p className={"font-bold text-2xl"}>Event Description: </p>
                 <textarea
-                  className={"mt-3 w-full h-[200px] border-[1px] pl-3 pt-3"}
+                  className={"mt-3 w-full h-[200px] border-[1px] pl-3 pt-3 whitespace-pre-wrap"}
                   value={currentData.eventDesp}
                   disabled={!editMode}
                   onChange={(event) => {
