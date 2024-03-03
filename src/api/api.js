@@ -1,7 +1,6 @@
 import axios from "axios";
 export const api = axios.create({
-  baseURL: "https://techutsav-admin-backend.onrender.com",
-  // baseURL: "http://localhost:3002",
+  baseURL: import.meta.env.VITE_API_KEY,
   headers: {
     "Content-Type": "application/json",
   },

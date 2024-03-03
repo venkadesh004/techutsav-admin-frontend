@@ -13,6 +13,7 @@ import FileDownloadDoneIcon from "@mui/icons-material/FileDownloadDone";
 import CloseIcon from "@mui/icons-material/Close";
 
 import { api } from "../api/api";
+import Navbar from "../components/Navbar";
 
 const columns = [
   { id: "email", label: "Email", minWidth: 50 },
@@ -39,7 +40,7 @@ const StudentList = () => {
         setRestartEffect(false);
       })
       .catch((err) => {
-        console.log(err);
+        //console.log(err);
       });
   }, [restartEffect]);
 
@@ -49,6 +50,7 @@ const StudentList = () => {
 
   return (
     <div>
+      <Navbar />
       <div className="w-full">
         <Paper
           sx={{
@@ -75,14 +77,14 @@ const StudentList = () => {
                 </TableRow>
               </TableHead>
               <TableBody sx={{ overflow: "scroll" }}>
-                {rows.map((row) => {
-                  // console.log(row);
+                {rows.map((row, index) => {
+                  // //console.log(row);
                   return (
-                    <TableRow hover role="checkbox">
-                      {columns.map((column) => {
+                    <TableRow hover role="checkbox" key={index}>
+                      {columns.map((column, index) => {
                         if (column.id === "paid") {
                           return (
-                            <TableCell>
+                            <TableCell key={index}>
                               {row[column.id] ? (
                                 <FileDownloadDoneIcon />
                               ) : (
@@ -94,6 +96,7 @@ const StudentList = () => {
                         if (column.id === "confirm") {
                           return (
                             <TableCell
+                              key={index}
                               sx={{
                                 display: "flex",
                                 alignItems: "center",
@@ -114,13 +117,14 @@ const StudentList = () => {
                                       paid: true,
                                       fullName: row["fullName"],
                                       email: row["email"],
-                                      transactionNumber: row["transactionNumber"]
+                                      transactionNumber:
+                                        row["transactionNumber"],
                                     })
                                     .then((result) => {
                                       setRestartEffect(true);
                                     })
                                     .catch((err) => {
-                                      console.log(err);
+                                      //console.log(err);
                                     });
                                 }}
                               >
@@ -138,13 +142,13 @@ const StudentList = () => {
                                       paid: false,
                                       fullName: row["fullName"],
                                       email: row["email"],
-                                      transactionNumber: ""
+                                      transactionNumber: "",
                                     })
                                     .then((result) => {
                                       setRestartEffect(true);
                                     })
                                     .catch((err) => {
-                                      console.log(err);
+                                      //console.log(err);
                                     });
                                 }}
                               >
@@ -153,7 +157,9 @@ const StudentList = () => {
                             </TableCell>
                           );
                         }
-                        return <TableCell>{row[column.id]}</TableCell>;
+                        return (
+                          <TableCell key={index}>{row[column.id]}</TableCell>
+                        );
                       })}
                     </TableRow>
                   );

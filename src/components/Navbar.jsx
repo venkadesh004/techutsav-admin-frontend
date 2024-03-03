@@ -14,7 +14,10 @@ import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 
 import { api } from "../api/api";
 
+import { Link } from "react-router-dom";
+
 const pages = ["Event Data", "Student List"];
+const routes = ["/", "/students"];
 
 function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -28,7 +31,7 @@ function Navbar() {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" className={`h-[80px]`}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <AdminPanelSettingsIcon
@@ -38,7 +41,7 @@ function Navbar() {
             variant="h6"
             noWrap
             component="a"
-            href="#app-bar-with-responsive-menu"
+            href="/"
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
@@ -81,8 +84,8 @@ function Navbar() {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
+              {pages.map((page, index) => (
+                <MenuItem key={index} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
@@ -95,7 +98,7 @@ function Navbar() {
             variant="h5"
             noWrap
             component="a"
-            href="#app-bar-with-responsive-menu"
+            href=""
             sx={{
               mr: 2,
               display: { xs: "flex", md: "none" },
@@ -110,14 +113,16 @@ function Navbar() {
             ADMIN
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
-                {page}
-              </Button>
+            {pages.map((page, index) => (
+              <Link to={routes[index]} key={index}>
+                <Button
+                  key={page}
+                  onClick={handleCloseNavMenu}
+                  sx={{ my: 2, color: "white", display: "block" }}
+                >
+                  {page}
+                </Button>
+              </Link>
             ))}
           </Box>
 
@@ -130,13 +135,13 @@ function Navbar() {
               );
               api
                 .post("admin/createEvent", {
-                    uniqueName: eventName
+                  uniqueName: eventName,
                 })
                 .then((result) => {
                   window.location.reload();
                 })
                 .catch((err) => {
-                  console.log(err);
+                  // console.log(err);
                 });
             }}
           >

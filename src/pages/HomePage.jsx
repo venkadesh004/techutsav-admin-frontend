@@ -24,7 +24,8 @@ import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 
-import {useMediaQuery} from "@mui/material";
+import { useMediaQuery } from "@mui/material";
+import Navbar from "../components/Navbar";
 
 const theme = createTheme({
   palette: {
@@ -33,9 +34,13 @@ const theme = createTheme({
 });
 
 const HomePage = () => {
-  const screenCheck = useMediaQuery('(min-width: 1000px)');
+  const screenCheck = useMediaQuery("(min-width: 1000px)");
   if (!screenCheck) {
-    return <div className="mt-10 w-full text-center">Please Open in a Screen Bigger than 1000px</div>;
+    return (
+      <div className="mt-10 w-full text-center">
+        Please Open in a Screen Bigger than 1000px
+      </div>
+    );
   }
 
   const [events, setEvents] = useState([]);
@@ -45,12 +50,12 @@ const HomePage = () => {
     api
       .get("admin/getEvents")
       .then((result) => {
-        console.log(result.data.result);
+        // console.log(result.data.result);
         setEvents(result.data.result);
         setLoading(false);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   }, []);
 
@@ -64,7 +69,7 @@ const HomePage = () => {
     eventTiming: "",
     eventDesp: "",
     incharge: "",
-    inchargeNumber: ""
+    inchargeNumber: "",
   });
   const [open, setOpen] = useState(false);
   const [editMode, setEditMode] = useState(false);
@@ -80,54 +85,46 @@ const HomePage = () => {
       .post("admin/getEventData", { uniqueName: element })
       .then((result) => {
         setCurrentData(result.data.result);
-        console.log(currentData);
+        // console.log(currentData);
         setOpen(true);
         setSubLoader(false);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   };
 
   const handleSave = () => {
-    console.log(currentData);
+    // console.log(currentData);
     api
       .put("admin/updateEvent", currentData)
       .then((result) => {
         setEditMode(false);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   };
-
-  var data = [
-    {
-      department: "Computer Science and Engineering",
-      eventName: "Blind Coding",
-      eventTiming: "10:00AM-12:00PM",
-      eventAbstract:
-        "The Best event conducted by the department of Computer Science and Engineering",
-    },
-  ];
 
   if (loading) {
     return <div className="mt-10 w-full text-center">Loading...</div>;
   }
 
   return (
-    <div>
+    <div className={`overflow-hidden`}>
+      <Navbar />
       <div className={"flex items-start justify-center"}>
         <Paper
           className={
-            "w-[30%] flex items-center flex-col h-[100vh] overflow-y-scroll"
+            "w-[30%] flex items-center flex-col h-[calc(100vh-80px)] overflow-y-scroll pb-10"
           }
           elevation={2}
         >
-          {events.map((element) => {
-            console.log(element);
+          {events.map((element, index) => {
+            // // console.log(element);
             return (
               <Paper
+                key={index}
                 elevation={5}
                 sx={{
                   width: "calc(100% - 70px)",
@@ -148,11 +145,11 @@ const HomePage = () => {
             );
           })}
         </Paper>
-        <div className={`w-[70%] p-10`}>
+        <div className={`w-[70%] p-10 h-[calc(100vh-80px)] overflow-y-scroll`}>
           {subLoader && <div>Loading Data...</div>}
           {open && (
             <div>
-              <div className={"w-full mh-[600px] flex items-start"}>
+              <div className={"w-full flex items-start"}>
                 <div
                   className={
                     "flex pl-10 flex-col w-[70%] h-full justify-center gap-7"
@@ -215,26 +212,26 @@ const HomePage = () => {
                               uniqueName: currentData.uniqueName,
                             })
                             .then((result) => {
-                              console.log(result);
+                              // // console.log(result);
                               if (result.data.msg === "success") {
                                 setOpen(false);
                                 setLoading(true);
                                 api
                                   .get("admin/getEvents")
                                   .then((result) => {
-                                    console.log(result.data.result);
+                                    // // console.log(result.data.result);
                                     setEvents(result.data.result);
                                     setLoading(false);
                                   })
                                   .catch((err) => {
-                                    console.log(err);
+                                    // console.log(err);
                                   });
                               } else {
-                                console.log(result);
+                                // console.log(result);
                               }
                             })
                             .catch((err) => {
-                              console.log(err);
+                              // console.log(err);
                             });
                         } else {
                           alert("Deletion Failed!");
@@ -272,7 +269,7 @@ const HomePage = () => {
                               alert("Image Uploaded Successfully");
                             })
                             .catch((err) => {
-                              console.log(err);
+                              // console.log(err);
                               alert("Image Uploading Failed!");
                               setSubLoader(false);
                               setOpen(true);
@@ -302,7 +299,7 @@ const HomePage = () => {
                       className={"border-[1px] w-[450px] h-[40px] pl-3"}
                       disabled={!editMode}
                       onChange={(event) => {
-                        console.log(event.target.value);
+                        // console.log(event.target.value);
                         setCurrentData({
                           ...currentData,
                           eventName: event.target.value,
@@ -323,7 +320,7 @@ const HomePage = () => {
                       className={"border-[1px] w-[450px] h-[40px] pl-3"}
                       disabled={!editMode}
                       onChange={(event) => {
-                        console.log(event.target.value);
+                        // console.log(event.target.value);
                         setCurrentData({
                           ...currentData,
                           department: event.target.value,
@@ -344,7 +341,7 @@ const HomePage = () => {
                       className={"border-[1px] w-[450px] h-[40px] pl-3"}
                       disabled={!editMode}
                       onChange={(event) => {
-                        console.log(event.target.value);
+                        // console.log(event.target.value);
                         setCurrentData({
                           ...currentData,
                           eventTiming: event.target.value,
@@ -365,7 +362,7 @@ const HomePage = () => {
                       className={"border-[1px] w-[450px] h-[40px] pl-3"}
                       disabled={!editMode}
                       onChange={(event) => {
-                        console.log(event.target.value);
+                        // console.log(event.target.value);
                         setCurrentData({
                           ...currentData,
                           eventAbstract: event.target.value,
@@ -386,7 +383,7 @@ const HomePage = () => {
                       className={"border-[1px] w-[450px] h-[40px] pl-3"}
                       disabled={!editMode}
                       onChange={(event) => {
-                        console.log(event.target.value);
+                        // console.log(event.target.value);
                         setCurrentData({
                           ...currentData,
                           incharge: event.target.value,
@@ -407,7 +404,7 @@ const HomePage = () => {
                       className={"border-[1px] w-[450px] h-[40px] pl-3"}
                       disabled={!editMode}
                       onChange={(event) => {
-                        console.log(event.target.value);
+                        // console.log(event.target.value);
                         setCurrentData({
                           ...currentData,
                           inchargeNumber: event.target.value,
@@ -422,8 +419,14 @@ const HomePage = () => {
                     }
                   >
                     <p className={"font-bold text-2xl"}>Flagship Event: </p>
-                    <FormControl className={'w-[450px]'}>
-                      <InputLabel id="flagshipEventSelection" className={'w-[200px]'} disabled={!editMode}>Flagship Event</InputLabel>
+                    <FormControl className={"w-[450px]"}>
+                      <InputLabel
+                        id="flagshipEventSelection"
+                        className={"w-[200px]"}
+                        disabled={!editMode}
+                      >
+                        Flagship Event
+                      </InputLabel>
                       <Select
                         labelId="flagshipEventSelection"
                         id=""
@@ -432,7 +435,7 @@ const HomePage = () => {
                         onChange={(event) => {
                           setCurrentData({
                             ...currentData,
-                            flagship: event.target.value
+                            flagship: event.target.value,
                           });
                         }}
                       >
@@ -456,11 +459,13 @@ const HomePage = () => {
               <div className={"mt-4 pl-10"}>
                 <p className={"font-bold text-2xl"}>Event Description: </p>
                 <textarea
-                  className={"mt-3 w-full h-[200px] border-[1px] pl-3 pt-3 whitespace-pre-wrap"}
+                  className={
+                    "mt-3 w-full h-[200px] border-[1px] pl-3 pt-3 whitespace-pre-wrap"
+                  }
                   value={currentData.eventDesp}
                   disabled={!editMode}
                   onChange={(event) => {
-                    console.log(event.target.value);
+                    // console.log(event.target.value);
                     setCurrentData({
                       ...currentData,
                       eventDesp: event.target.value,
