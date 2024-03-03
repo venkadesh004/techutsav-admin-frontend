@@ -27,6 +27,8 @@ import MenuItem from "@mui/material/MenuItem";
 import { useMediaQuery } from "@mui/material";
 import Navbar from "../components/Navbar";
 
+import CircularProgress from "@mui/material/CircularProgress";
+
 const theme = createTheme({
   palette: {
     primary: blue,
@@ -107,7 +109,11 @@ const HomePage = () => {
   };
 
   if (loading) {
-    return <div className="mt-10 w-full text-center">Loading...</div>;
+    return (
+      <div className="w-full h-screen flex items-center justify-center">
+        <CircularProgress />
+      </div>
+    );
   }
 
   return (
@@ -207,6 +213,8 @@ const HomePage = () => {
                           "Enter the Unique Name of the Project: "
                         );
                         if (name == currentData.uniqueName) {
+                          setOpen(false);
+                          setLoading(true);
                           api
                             .put("admin/deleteEvent", {
                               uniqueName: currentData.uniqueName,
@@ -214,8 +222,6 @@ const HomePage = () => {
                             .then((result) => {
                               // // console.log(result);
                               if (result.data.msg === "success") {
-                                setOpen(false);
-                                setLoading(true);
                                 api
                                   .get("admin/getEvents")
                                   .then((result) => {

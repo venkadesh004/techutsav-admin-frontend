@@ -12,6 +12,8 @@ import Button from "@mui/material/Button";
 import FileDownloadDoneIcon from "@mui/icons-material/FileDownloadDone";
 import CloseIcon from "@mui/icons-material/Close";
 
+import CircularProgress from "@mui/material/CircularProgress";
+
 import { api } from "../api/api";
 import Navbar from "../components/Navbar";
 
@@ -35,7 +37,7 @@ const StudentList = () => {
     api
       .get("/admin/getStudents")
       .then((result) => {
-        setRows(result.data);
+        setRows(result.data.sort((a, b) => (a && !b) ? 1:-1).sort((a, b) => (a.transactionNumber.length > b.transactionNumber.length) ? -1:1));
         setLoading(false);
         setRestartEffect(false);
       })
@@ -45,7 +47,7 @@ const StudentList = () => {
   }, [restartEffect]);
 
   if (loading) {
-    return <div className={"w-full text-center mt-10"}>Loading...</div>;
+    return <div className={"w-full h-screen flex items-center justify-center"}><CircularProgress /></div>;
   }
 
   return (
@@ -86,9 +88,9 @@ const StudentList = () => {
                           return (
                             <TableCell key={index}>
                               {row[column.id] ? (
-                                <FileDownloadDoneIcon />
+                                <FileDownloadDoneIcon color="success" />
                               ) : (
-                                <CloseIcon />
+                                <CloseIcon color="error" />
                               )}
                             </TableCell>
                           );
@@ -111,6 +113,7 @@ const StudentList = () => {
                                 sx={{ width: "20px", aspectRatio: "2/1" }}
                                 disabled={row["transactionNumber"] === ""}
                                 onClick={() => {
+                                  setLoading(true);
                                   api
                                     .put("/admin/updateUser", {
                                       _id: row["_id"],
@@ -122,6 +125,7 @@ const StudentList = () => {
                                     })
                                     .then((result) => {
                                       setRestartEffect(true);
+                                      setLoading(false);
                                     })
                                     .catch((err) => {
                                       //console.log(err);
@@ -136,6 +140,7 @@ const StudentList = () => {
                                 sx={{ width: "20px", aspectRatio: "2/1" }}
                                 disabled={row["transactionNumber"] === ""}
                                 onClick={() => {
+                                  setLoading(true);
                                   api
                                     .put("/admin/updateUser", {
                                       _id: row["_id"],
@@ -146,6 +151,7 @@ const StudentList = () => {
                                     })
                                     .then((result) => {
                                       setRestartEffect(true);
+                                      setLoading(false);
                                     })
                                     .catch((err) => {
                                       //console.log(err);
