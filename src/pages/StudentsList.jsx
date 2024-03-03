@@ -113,7 +113,8 @@ const StudentList = () => {
                                       _id: row["_id"],
                                       paid: true,
                                       fullName: row["fullName"],
-                                      email: row["email"]
+                                      email: row["email"],
+                                      transactionNumber: row["transactionNumber"]
                                     })
                                     .then((result) => {
                                       setRestartEffect(true);
@@ -137,6 +138,7 @@ const StudentList = () => {
                                       paid: false,
                                       fullName: row["fullName"],
                                       email: row["email"],
+                                      transactionNumber: ""
                                     })
                                     .then((result) => {
                                       setRestartEffect(true);
