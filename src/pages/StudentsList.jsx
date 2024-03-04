@@ -38,8 +38,8 @@ const StudentList = () => {
       .get("/admin/getStudents")
       .then((result) => {
         setRows(result.data.sort((a, b) => (a && !b) ? 1:-1).sort((a, b) => (a.transactionNumber.length > b.transactionNumber.length) ? -1:1));
-        setLoading(false);
         setRestartEffect(false);
+        setLoading(false);
       })
       .catch((err) => {
         //console.log(err);
