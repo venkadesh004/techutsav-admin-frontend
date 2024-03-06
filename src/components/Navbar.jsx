@@ -16,8 +16,8 @@ import { api } from "../api/api";
 
 import { Link } from "react-router-dom";
 
-const pages = ["Event Data", "Student List"];
-const routes = ["/", "/students"];
+const pages = ["Event Data"];
+const routes = ["/"];
 
 function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
